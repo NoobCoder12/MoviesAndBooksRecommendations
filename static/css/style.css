@@ -1,0 +1,36 @@
+nav {
+    height: 60px;
+    background-color: black;
+}
+
+.choice {
+    color: white;
+    text-decoration: none;
+}
+
+.choice:hover {
+    color: lightgray;
+}
+
+.options-container {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    margin-top: 100px;
+}
+
+
+.option {
+    padding: 50px;
+    border: 2px solid black;
+    text-align: center;
+}
+
+.main-choice {
+    text-decoration: none;
+    color: black;
+}
+
+.main-choice:hover {
+    color: darkgrey;
+}

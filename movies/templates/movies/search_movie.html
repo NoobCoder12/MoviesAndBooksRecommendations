@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+Recommendations for movies
+{% endblock %}
+    
+{% block body %}
+<div class="search">
+    <form method="GET" action="#">
+        <input type="text" id="search" name="title" placeholder="Start typing movie title">
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+</div>   
+{% endblock %}
+    

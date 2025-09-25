@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+Recommendations for books
+{% endblock %}
+    
+{% block body %}
+<div class="search">
+    <form method="GET" action="{% url 'books:get_books' %}">
+        <input type="text" id="search" name="title" placeholder="Start typing book title">
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+</div>   
+{% endblock %}
+    

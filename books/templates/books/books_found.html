@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+Found books
+{% endblock %}
+    
+{% block body %}
+<div class="results">
+    {% for book in books%}
+
+        <h2>{{ book.volumeInfo.title }}</h2>
+        <p>Written by: {{ book.volumeInfo.authors|join:", "|default:"Unknown" }}</p>
+        <p>Published in: {{ book.volumeInfo.publishedDate|default:"Unknown" }}</p>
+        <p>By: {{ book.volumeInfo.publisher|default:"Unknown" }}</p>
+        <p>Description: {{ book.volumeInfo.description|default:"Unknown" }}</p>
+
+    {% empty %}
+
+        <p>No books found. Check if spelling is correct.</p>
+
+    {% endfor %}
+
+
+</div>   
+{% endblock %}
+    

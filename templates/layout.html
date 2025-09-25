@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        Movies and books recommendations
+        {% endblock %}   
+    </title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block head %}
+    
+    {% endblock %}
+</head>
+<body>
+    <nav>
+        <a href="/" class="choice">
+            <span role="img" aria-label="Home" title="Home">🏠</span>
+        </a>
+        <a href="/movies" class="choice">
+            <span role="text" aria-label="Movies" title="Movies">Movies</span>
+        </a>
+        <a href="/books" class="choice">
+            <span role="text" aria-label="Books" title="Books">Books</span>
+        </a>
+    </nav>
+    {% block body %}
+    
+    {% endblock  %}
+</body>
+</html>

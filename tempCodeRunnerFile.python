@@ -1,0 +1,38 @@
+import pickle
+import os
+import time
+
+CACHE_FILE = "cache.pkl"
+EXPIRATION_SECONDS = 10
+
+if os.path.exists(CACHE_FILE):
+    with open(CACHE_FILE, "rb") as f:
+            cache = pickle.load(f) 
+
+else:
+    cache = {}
+
+
+def get_result(word):
+    now = time.time()
+    word_lower = word.lower()
+
+    if word_lower in cache:
+        entry = cache[word_lower]
+        print('pobrano z cache')
+        return cache[word]
+     
+    else:
+        result = f"To jest wynik dla {word}"
+        cache[word] = result
+        with open(CACHE_FILE, 'wb') as f:
+            pickle.dump(cache, f)
+        print("Obliczono i zapisano do cache")
+        return result
+    
+
+print(get_result('Pies'))
+
+print(cache)
+
+print(time.time())
