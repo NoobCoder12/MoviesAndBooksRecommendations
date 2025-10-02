@@ -2,11 +2,10 @@ import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
-from genresMatrix import keywords_to_subject
+from genresMatrix import subject_to_keywords
 import os
 import pickle
 import time
-
 
 
 CACHE_FILE = 'cache_books.pkl'  # nazwa pliku
@@ -97,10 +96,9 @@ def fetch_books_by_category(subject):
     return titles
 
 
-title = "lord of the rings"
+title = "sherlock holmes"
 
 subjects = fetch_best_book_category(title)
-
 
 
 title_stop = title.lower().split()  # przygotowanie tytułu jako stop word
@@ -116,34 +114,27 @@ custom_stop_words = ['english', 'en', 'literature', 'novel', 'criticism',
 
 stop_words = list(ENGLISH_STOP_WORDS) + (custom_stop_words)
 
-# tworzenie obiektu dla wektora
-vectorizer = TfidfVectorizer(stop_words=stop_words, max_df=0.8, min_df=2)
+genres_values = [' '.join(words) for words in subject_to_keywords.values()] # połączenie wartości per klucz z matrycy w listę
+genres_labels = list(subject_to_keywords.keys()) # połączenie gatunków w listę
+
+# tworzenie obiektu dla wektora, nie ingoruje zadnego słowa
+vectorizer = TfidfVectorizer(stop_words=stop_words, max_df=1.0, min_df=1)
 # trenowanie i przekształcanie gatunków w matrycę
-tfidf_matrix = vectorizer.fit_transform(subjects)
+genres_matrix = vectorizer.fit_transform(genres_values)
 
-# przypisanie nazwy kolumn do zmiennej
-feature_names = vectorizer.get_feature_names_out()
+subjects_joined = [' '.join(subjects)] # lista połączonych gartunków
+book_matrix = vectorizer.transform(subjects_joined) # matryca z listy połączonych gatunków
 
-# podsumowanie wyników dla każdej kolumny
-word_scores = tfidf_matrix.mean(axis=0).A1
-# pobranie najbardziej pasującego gatunku dla książki
+similarity = cosine_similarity(book_matrix, genres_matrix) # liczymy podobienstwo z główną matrycą
 
-# do zmiany, 3 gatunki, na 1 są błędy
-'''best_word = feature_names[word_scores.argmax()]'''
+scores = similarity[0] #tworzymy listę 1d z 2d
 
-top_n = 5  # ile top słów
+results = list(zip(genres_labels, scores)) # dopasowujemy w liście gatunek -> wynik podobienstwa
 
-top_indices = word_scores.argsort()[::-1][:top_n] # indeksy słów posortowane rosnąco
+results_sorted = sorted(results, key=lambda x: x[1], reverse=True) # sortowanie po drugim elemencie krotki, malejąco
 
-best_words = [feature_names[i]for i in top_indices]
+top_categories = [element[0] for element in results_sorted] # wybór kategorii z kazdej krotki
 
-print(best_words)
+top_category = top_categories[0] 
 
-for word in best_words:
-    print(fetch_books_by_category(word)[:3])
-    print('-----------------')
-
-
-'''for book in best_book[:20]:
-    print(book)
-    print("---------")'''
+print(fetch_books_by_category(top_category))
