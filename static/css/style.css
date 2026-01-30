@@ -34,3 +34,20 @@ nav {
 .main-choice:hover {
     color: darkgrey;
 }
+
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+.result {
+    padding: 20px;
+    border: 2px solid black;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
