@@ -1,0 +1,35 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+
+{% block title %}Found books{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'books/css/results.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="results">
+    {% for book in books %}
+        <div class="book-card">
+            <img src="{{ book.cover_url }}" alt="Cover for {{ book.title }}">
+            <h2>{{ book.title }}</h2>
+            <p>Written by: 
+                {% for author in book.authors %}
+                    {{ author.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    Unknown
+                {% endfor %}
+            </p>
+            <p>Genres: 
+                {% for genre in book.subject|slice:':3' %}
+                    {{ genre }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    Unknown
+                {% endfor %}
+            </p>
+        </div>
+    {% empty %}
+        <p>No books found. Check if spelling is correct.</p>
+    {% endfor %}
+</div>
+{% endblock %}
