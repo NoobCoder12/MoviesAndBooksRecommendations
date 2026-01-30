@@ -10,7 +10,7 @@ import json
 
 
 # CACHE_FILE = 'cache_books.pkl'  # nazwa pliku
-# EXPIRATION_SECONDS = 1 # ilość czasu, jaką jest pozycja w cache
+# EXPIRATION_SECONDS = 900 # ilość czasu, jaką jest pozycja w cache
 
 
 # #  załadowanie cache, jeśli jest
@@ -66,14 +66,6 @@ def fetch_best_book_category(title):
     except Exception as e:
         print(f'Error fetching data: {e}')
         return []
-
-    # # stworzenie formatu pozycji w cache
-    # if 'titles' not in cache:
-    #     cache['titles'] = {}
-    # cache['titles'][title] = {'timestamp': now, 'result': subjects}
-
-    # with open(CACHE_FILE, 'wb') as f:
-    #     pickle.dump(cache, f)  # zapisanie pozycji do cache
     
     print(f"SUBJECTS: {subjects}")
 
@@ -110,6 +102,14 @@ def fetch_best_book_category(title):
     top_category = top_categories[0] 
     
     print(f"TOP CATEGORY: {top_category}")
+    
+    # # stworzenie formatu pozycji w cache
+    # if 'titles' not in cache:
+    #     cache['titles'] = {}
+    # cache['titles'][title] = {'timestamp': now, 'result': top_category}
+
+    # with open(CACHE_FILE, 'wb') as f:
+    #     pickle.dump(cache, f)  # zapisanie pozycji do cache
 
     return top_category
 
@@ -139,7 +139,7 @@ def fetch_books_by_category(category):
     # pobranie książek przypisanych do gatunku
     results = data.get('works', [])
 
-    # stworzenie formatu pozycji w cache
+    # # stworzenie formatu pozycji w cache
     # if 'genres' not in cache:
     #     cache['genres'] = {}
     # cache['genres'][category] = {'timestamp': now, 'result': results}
